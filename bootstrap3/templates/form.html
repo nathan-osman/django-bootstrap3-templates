@@ -1,0 +1,34 @@
+{% extends "site.html" %}
+{% load bootstrap3 %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-6">
+            <form method="post"{% if form.is_multipart %} enctype="multipart/form-data"{% endif %}>
+                {% csrf_token %}
+                <h2>{{ title }}</h2>
+                <hr>
+                {% for error in form.non_field_errors %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endfor %}
+                {% for field in form %}
+                    <div class="form-group{% if field.errors %} has-error{% endif %}">
+                        <label for="id_{{ field.name }}" class="control-label">
+                            {{ field.label }}
+                        </label>
+                        <p>{{ field|form_control }}</p>
+                        {% for error in field.errors %}
+                            <div class="alert alert-danger">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+                <br>
+                <button type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-check"></span>
+                    {{ form_action }}
+                </button>
+                <input type="reset" class="btn btn-default">
+            </form>
+        </div>
+    </div>
+{% endblock %}
