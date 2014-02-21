@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>
-            {% block title %}{{ title }}{% endblock %}
+            {% block title %}{% endblock %}
         </title>
 
         {% load static %}
@@ -25,7 +25,7 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="{% url "home" %}">
-                        {% block brand %}Django Bootstrap{% endblock %}
+                        {% block brand %}{% endblock %}
                     </a>
                 </div>
                 <div class="navbar-collapse collapse">
@@ -33,7 +33,29 @@
                         {% block navbar %}{% endblock %}
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        {% block navbar_right %}{% endblock %}
+                        {% block navbar_right %}
+                            {% if user.is_authenticated %}
+                                {% url "bootstrap3:logout" as logout_url %}
+                                {% if logout_url %}
+                                    <li>
+                                        <a href="{{ logout_url }}">
+                                            <span class="glyphicon glyphicon-log-out"></span>
+                                            Logout
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            {% else %}
+                                {% url "bootstrap3:login" as login_url %}
+                                {% if login_url %}
+                                    <li>
+                                        <a href="{{ login_url }}">
+                                            <span class="glyphicon glyphicon-log-in"></span>
+                                            Login
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+                        {% endblock %}
                     </ul>
                 </div>
             </div>
@@ -51,10 +73,15 @@
         </div>
 
         {# Footer #}
-        <hr>
+        <br><hr>
         <div class="container">
             {% block footer %}
-                Copyright &copy; {% now "Y" %}
+                <p class="pull-right">
+                    Powered by <a href="https://github.com/nathan-osman/django-bootstrap3-templates">django-bootstrap3-templates</a>
+                </p>
+                <p>
+                    Copyright &copy; {% now "Y" %}
+                </p>
             {% endblock %}
         </div>
 
