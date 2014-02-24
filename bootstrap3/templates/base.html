@@ -35,6 +35,15 @@
                     <ul class="nav navbar-nav navbar-right">
                         {% block navbar_right %}
                             {% if user.is_authenticated %}
+                                {% url "admin:index" as admin_url %}
+                                {% if user.is_staff and admin_url %}
+                                    <li>
+                                        <a href="{{ admin_url }}">
+                                            <span class="glyphicon glyphicon-dashboard"></span>
+                                            Administration
+                                        </a>
+                                    </li>
+                                {% endif %}
                                 {% url "bootstrap3:logout" as logout_url %}
                                 {% if logout_url %}
                                     <li>
@@ -63,6 +72,12 @@
 
         {# Page Contents #}
         <div class="container">
+            {% block breadcrumbs_container %}
+                <ol class="breadcrumb">
+                    <li><a href="{% url "home" %}">Home</a></li>
+                    {% block breadcrumbs %}{% endblock %}
+                </ol>
+            {% endblock %}
             {% for message in messages %}
                 <div class="alert alert-info">
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
