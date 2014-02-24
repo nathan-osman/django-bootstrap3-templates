@@ -1,0 +1,48 @@
+{% extends "site.html" %}
+
+{% block breadcrumbs %}
+    <li>Administration</li>
+{% endblock %}
+
+{% block content %}
+    <h2>{{ title }}</h2>
+    <hr>
+    <div class="row">
+        <div class="col-lg-4">
+            {% for app in app_list %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <a href="{{ app.app_url }}">{{ app.name }}</a>
+                    </div>
+                    <ul class="list-group">
+                        {% for model in app.models %}
+                            <li class="list-group-item">
+                                <div class="pull-right">
+                                    {% if model.add_url %}
+                                        <a href="{{ model.add_url }}" class="btn btn-xs btn-info">
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                            Add
+                                        </a>
+                                    {% endif %}
+                                    {% if model.admin_url %}
+                                        <a href="{{ model.admin_url }}" class="btn btn-xs btn-info">
+                                            <span class="glyphicon glyphicon-pencil"></span>
+                                            Change
+                                        </a>
+                                    {% endif %}
+                                </div>
+                                {% if model.admin_url %}
+                                    <a href="{{ model.admin_url }}">{{ model.name }}</a>
+                                {% else %}
+                                    {{ model.name }}
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% empty %}
+                <p class="text-muted">You don't have permission to edit anything.</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
