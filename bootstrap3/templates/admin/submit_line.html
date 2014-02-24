@@ -1,0 +1,31 @@
+{% load admin_urls %}
+{% load i18n %}
+
+{% if show_delete_link %}
+    {% url opts|admin_urlname:'delete' original.pk|admin_urlquote as delete_url %}
+    <a href="{% add_preserved_filters delete_url %}" class="btn btn-danger btn-sm pull-right">
+        <span class="glyphicon glyphicon-trash"></span>
+        {% trans 'Delete' %}
+    </a>
+{% endif %}
+{% if show_save %}
+    <button type="submit" name="_save" class="btn btn-primary btn-sm">
+        <span class="glyphicon glyphicon-ok"></span>
+        {% trans 'Save' %}
+    </button>
+{% endif %}
+{% if show_save_as_new %}
+    <button type="submit" name="_saveasnew" class="btn btn-default btn-sm">
+        {% trans 'Save as new' %}
+    </button>
+{% endif %}
+{% if show_save_and_add_another %}
+    <button type="submit" name="_addanother" class="btn btn-default btn-sm">
+        {% trans 'Save and add another' %}
+    </button>
+{% endif %}
+{% if show_save_and_continue %}
+    <button type="submit" name="_continue" class="btn btn-default btn-sm">
+        {% trans 'Save and continue editing' %}
+    </button>
+{% endif %}
