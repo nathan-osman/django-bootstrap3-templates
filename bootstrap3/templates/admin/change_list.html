@@ -1,0 +1,31 @@
+{% extends "site.html" %}
+{% load admin_list %}
+{% load admin_urls %}
+
+{% block breadcrumbs %}
+    <li><a href="{% url "admin:index" %}">Administration</a></li>
+    <li><a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ app_label|capfirst|escape }}</a></li>
+    <li>{{ cl.opts.verbose_name_plural|capfirst }}</li>
+{% endblock %}
+
+{% block content %}
+    <h2>{{ title }}</h2>
+    <hr>
+    <div class="row">
+        <div class="col-sm-4">
+            {% search_form cl %}
+        </div>
+        <div class="col-sm-8">
+            {% url cl.opts|admin_urlname:'add' as add_url %}
+            <a href="{% add_preserved_filters add_url is_popup %}" class="btn btn-info pull-right">
+                <span class="glyphicon glyphicon-plus"></span>
+                Add {{ cl.opts.verbose_name }}
+            </a>
+        </div>
+    </div>
+    <br>
+    <form method="post"{% if cl.formset.is_multipart %} enctype="multipart/form-data"{% endif %} class="form-inline">
+        {% csrf_token %}
+        {% result_list cl %}
+    </form>
+{% endblock %}

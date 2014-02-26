@@ -1,0 +1,14 @@
+<table class="table table-striped table-bordered">
+    <tr>
+        {% for header in result_headers %}
+            <th{% if not forloop.counter0 %} style="width: 1.2em;"{% endif %}>
+                {{ header.text|capfirst }}
+            </th>
+        {% endfor %}
+    </tr>
+    {% for result in results %}
+        <tr>
+            {% for item in result %}{{ item }}{% endfor %}
+        </tr>
+    {% endfor %}
+</table>
