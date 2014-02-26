@@ -1,5 +1,4 @@
 {% extends "site.html" %}
-{% load bootstrap3 %}
 
 {% block content %}
     <form method="post"{% if form.is_multipart %} enctype="multipart/form-data"{% endif %}>
@@ -12,40 +11,17 @@
                     <div class="alert alert-danger">{{ error }}</div>
                 {% endfor %}
                 {% for field in form %}
-                    {% if field|widget_type == "checkboxinput" %}
-                        <div class="checkbox">
-                            <label>{{ field }} {{ field.label }}</label>
-                        </div>
-                    {% else %}
-                        <div class="form-group{% if field.errors %} has-error{% endif %}">
-                            <label for="{{ field.id_for_label }}" class="control-label">
-                                {{ field.label }}
-                            </label>
-                            {% if field|widget_type == "radioselect" %}
-                                {% for radio in field %}
-                                    <div class="radio">
-                                        <label>{{ radio }}</label>
-                                    </div>
-                                {% endfor %}
-                            {% else %}
-                                {% render_field field %}
-                            {% endif %}
-                        </div>
-                    {% endif %}
-                    {% if field.help_text %}
-                        <p class="help-block">{{ field.help_text }}</p>
-                    {% endif %}
-                    {% for error in field.errors %}
-                        <div class="alert alert-danger ">{{ error }}</div>
-                    {% endfor %}
+                    {% include "field.html" %}
                 {% endfor %}
             </div>
         </div>
         <hr>
-        <button type="submit" class="btn btn-primary">
-            <span class="glyphicon glyphicon-check"></span>
-            {{ form_action }}
-        </button>
-        <input type="reset" class="btn btn-default">
+        {% block form_actions %}
+            <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon-check"></span>
+                {{ form_action }}
+            </button>
+            <input type="reset" class="btn btn-default">
+        {% endblock %}
     </form>
 {% endblock %}

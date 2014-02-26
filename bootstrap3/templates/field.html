@@ -1,0 +1,28 @@
+{% load bootstrap3 %}
+
+{% if field|widget_type == "checkboxinput" %}
+    <div class="checkbox">
+        <label>{{ field }} {{ field.label }}</label>
+    </div>
+{% else %}
+    <div class="form-group{% if field.errors %} has-error{% endif %}">
+        <label for="{{ field.id_for_label }}" class="control-label">
+            {{ field.label }}
+        </label>
+        {% if field|widget_type == "radioselect" %}
+            {% for radio in field %}
+                <div class="radio">
+                    <label>{{ radio }}</label>
+                </div>
+            {% endfor %}
+        {% else %}
+            {% render_field field %}
+        {% endif %}
+    </div>
+{% endif %}
+{% if field.help_text %}
+    <p class="help-block">{{ field.help_text }}</p>
+{% endif %}
+{% for error in field.errors %}
+    <div class="alert alert-danger ">{{ error }}</div>
+{% endfor %}
