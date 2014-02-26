@@ -9,8 +9,7 @@
 {% endblock %}
 
 {% block content %}
-    <h2>{{ title }}</h2>
-    <hr>
+    {{ block.super }}
     <div class="row">
         <div class="col-sm-4">
             {% search_form cl %}

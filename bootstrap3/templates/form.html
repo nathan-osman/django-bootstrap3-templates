@@ -1,18 +1,19 @@
 {% extends "site.html" %}
 
 {% block content %}
+    {{ block.super }}
     <form method="post"{% if form.is_multipart %} enctype="multipart/form-data"{% endif %}>
         {% csrf_token %}
-        <h2>{{ title }}</h2>
-        <hr>
         <div class="row">
             <div class="col-lg-6">
                 {% for error in form.non_field_errors %}
                     <div class="alert alert-danger">{{ error }}</div>
                 {% endfor %}
-                {% for field in form %}
-                    {% include "field.html" %}
-                {% endfor %}
+                {% block form_fields %}
+                    {% for field in form %}
+                        {% include "field.html" %}
+                    {% endfor %}
+                {% endblock %}
             </div>
         </div>
         <hr>
